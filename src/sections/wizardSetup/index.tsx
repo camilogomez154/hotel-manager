@@ -1,4 +1,5 @@
 // Modules
+import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 // Components
@@ -18,12 +19,15 @@ import { createNewRoom } from '../../services/room/createNewRoom';
 
 export function WizardSetupSection(): JSX.Element {
 
+    const navigation = useNavigate()
+
     const [isCompleted, setIsCompleted] = useState<boolean>(false)
     const [isLoading, setIsLoading] = useState<boolean>(false)
+    const [activeStep, setActiveStep] = useState<number>(0);
+
     const [hotelModel, setHotelModel] = useState<HotelFormModel>()
     const [userModel, setUserModel] = useState<UserFormModel>()
     const [roomModel, setRoomModel] = useState<RoomFormModel>()
-    const [activeStep, setActiveStep] = useState<number>(0);
 
     const steps = ['Create admin user', 'Create new hotel', 'Create new room', 'Save data'];
     const viewsSteps = [UserForm, HotelForm, RoomForm]
@@ -60,6 +64,7 @@ export function WizardSetupSection(): JSX.Element {
         () => {
             if (isLoading && userModel) {
                 createElements()
+                navigation('/sign-in')
             }
         },
         [isLoading]
