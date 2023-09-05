@@ -1,14 +1,12 @@
-import { IsEmail, IsNotEmpty, IsString, Max } from "class-validator";
+import { IsEmail, IsNotEmpty, IsString, IsPhoneNumber } from "class-validator";
 
-export class UsersFormModel {
+export class UserFormModel {
   @IsNotEmpty()
   @IsString()
-  @Max(16)
   nickname: string;
 
   @IsNotEmpty()
   @IsString()
-  @Max(16)
   password: string;
 
   @IsNotEmpty()
@@ -19,4 +17,9 @@ export class UsersFormModel {
   @IsNotEmpty()
   @IsString()
   name: string;
+
+  @IsPhoneNumber()
+  @IsNotEmpty()
+  @IsString()
+  phone: string;
 }
