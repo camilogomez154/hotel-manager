@@ -1,23 +1,17 @@
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
 import { SignInForm } from '../../forms/signin';
 import { SignInFormModel } from '../../forms/signin/signInForm.model';
 import { SignInUser } from '../../services/users/signInUser';
+import { Container, Avatar, Box, } from '@mui/material';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import { useUser } from '../../hooks/user';
 
 export default function SignIn() {
 
+    const { setSignIn } = useUser()
+
     const handleSubmit = async (data: SignInFormModel) => {
-        const session = await SignInUser(data.email, data.password)
-        console.log(session)
+        const { session, user } = await SignInUser(data.email, data.password)
+        setSignIn(user, session);
     };
 
     return (
@@ -37,4 +31,5 @@ export default function SignIn() {
             </Box>
         </Container>
     );
+
 }

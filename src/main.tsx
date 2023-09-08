@@ -1,12 +1,15 @@
 import ReactDOM from 'react-dom/client'
 import React from 'react'
 
-import { MainRouter } from './routers/main.router'
+import { ReduxProvider } from './redux'
+import { MainRouter } from './routers'
 
 import './styles/main.css'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <MainRouter />
+    <ReduxProvider>
+      <MainRouter />
+    </ReduxProvider>
   </React.StrictMode>,
 )
