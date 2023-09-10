@@ -1,13 +1,15 @@
-import { setInformation, setSession } from "../../redux/reducers/user/user.reducer";
+import { setInformation, setLoading, setSession } from "../../redux/reducers/user/user.reducer";
 import { useAppDispatch, useAppSelector } from "../../redux/redux.hooks"
-import { User, Session } from '@supabase/supabase-js';
+import { SignInUser } from "../../services/users/signInUser";
 
 export function useUser() {
 
     const { error, loading, signIn, information, session } = useAppSelector((state) => state.UserReducer)
     const dispatch = useAppDispatch()
 
-    const setSignIn = (user: User, session: Session) => {
+    const setSignIn = async (email: string, password: string) => {
+        dispatch(setLoading(true))
+        const { session, user } = await SignInUser(email, password)
         dispatch(
             setSession({
                 access_token: session.access_token,
@@ -28,6 +30,7 @@ export function useUser() {
                 }
             })
         )
+        dispatch(setLoading(false))
     }
 
     return { error, loading, signIn, information, session, setSignIn }

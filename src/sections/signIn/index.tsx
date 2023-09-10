@@ -1,35 +1,31 @@
-import { SignInForm } from '../../forms/signin';
-import { SignInFormModel } from '../../forms/signin/signInForm.model';
-import { SignInUser } from '../../services/users/signInUser';
-import { Container, Avatar, Box, } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import { Avatar, Box, } from '@mui/material';
+
+import { SignInFormModel } from '../../forms/signin/signInForm.model';
+import { CenterLayout } from '../../layouts/center';
+import { SignInForm } from '../../forms/signin';
 import { useUser } from '../../hooks/user';
+import { useNavigate } from 'react-router-dom';
 
 export default function SignIn() {
 
-    const { setSignIn } = useUser()
+    const { setSignIn, loading } = useUser()
+    const navigate = useNavigate()
 
     const handleSubmit = async (data: SignInFormModel) => {
-        const { session, user } = await SignInUser(data.email, data.password)
-        setSignIn(user, session);
+        await setSignIn(data.email, data.password);
+        navigate('/dashboard')
     };
 
     return (
-        <Container component="main" maxWidth="xs">
-            <Box
-                sx={{
-                    marginTop: 8,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                }}
-            >
-                <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+        <CenterLayout loading={loading}>
+            <Box component='section' sx={{ display: "flex", flexDirection: "column", justifyContent: 'center', alignItems: 'center' }}>
+                <Avatar sx={{ mb: 3, bgcolor: 'secondary.main' }}>
                     <LockOutlinedIcon />
                 </Avatar>
                 <SignInForm onSubmit={handleSubmit} />
             </Box>
-        </Container>
+        </CenterLayout>
     );
 
 }
